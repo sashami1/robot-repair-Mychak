@@ -2,17 +2,18 @@ using UnityEngine;
 
 public class HealthCollectible : MonoBehaviour
 {
+    public int healthAmount = 1;
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        PlayerController controller = other.GetComponentInParent<PlayerController>();
+        PlayerController controller = other.GetComponent<PlayerController>();
 
         if (controller != null)
         {
- 
             if (controller.health < controller.maxHealth)
             {
-                controller.ChangeHealth(1);
-                Destroy(gameObject); 
+                controller.ChangeHealth(healthAmount);
+                Destroy(gameObject);
             }
         }
     }
