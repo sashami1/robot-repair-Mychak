@@ -5,6 +5,7 @@ public class EnemyController : MonoBehaviour
     public float speed = 3.0f;
     public bool vertical;
     public float changeTime = 3.0f;
+    public bool isBroken { get { return broken; } }
 
     private Rigidbody2D rigidbody2d;
     private Animator animator;
