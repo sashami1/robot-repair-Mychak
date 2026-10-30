@@ -4,10 +4,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public PlayerController player;
+    EnemyController[] enemies;
     public UIHandler uiHandler;
 
-    private EnemyController[] enemies;
-    private bool isGameEnded = false;
+    private bool gameOver = false;
 
     void Start()
     {
@@ -16,31 +16,27 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (isGameEnded) return;
+        if (gameOver) return; 
 
-        // Поразка: здоров'я гравця дорівнює 0
-        if (player != null && player.health <= 0)
+        if (player.health <= 0)
         {
-            isGameEnded = true;
-            if (uiHandler != null) uiHandler.DisplayLoseScreen();
+            gameOver = true;
+            uiHandler.DisplayLoseScreen();
             Invoke(nameof(ReloadScene), 3f);
         }
-        // Перемога: усі роботи на карті відремонтовані
         else if (AllEnemiesFixed())
         {
-            isGameEnded = true;
-            if (uiHandler != null) uiHandler.DisplayWinScreen();
+            gameOver = true;
+            uiHandler.DisplayWinScreen();
             Invoke(nameof(ReloadScene), 3f);
         }
     }
 
     bool AllEnemiesFixed()
     {
-        if (enemies == null || enemies.Length == 0) return false;
-
         foreach (EnemyController enemy in enemies)
         {
-            if (enemy != null && enemy.isBroken) return false;
+            if (enemy.isBroken) return false;
         }
         return true;
     }
